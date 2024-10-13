@@ -1,7 +1,12 @@
 const express = require('express');
+const multer = require('multer');
+const uploadConfig = require('./upload/uploadConfig');
+
 const app = express();
+const uploadMiddleware = multer(uploadConfig);
 
 app.use(express.json());
+app.use('/imagens', express.static(uploadConfig.directory));
 
 function monitorarRequisicoes(request, response, next) {
     const { method, url, params, body, query } = request;
@@ -21,7 +26,7 @@ app.get('/disciplinas', (request, response) => {
 });
 
 
-app.post('/disciplinas', (request, response) => {
+app.post('/disciplinas', uploadMiddleware.single('avatar'),(request, response) => {
     const body = request.body;
     return response.json(body);
 });
