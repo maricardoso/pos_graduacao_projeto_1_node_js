@@ -13,7 +13,7 @@ function monitorarRequisicoes(request, response, next) {
     return next();
 }
 
-app.use(monitorarRequisicoes);
+app.use('/disciplinas', monitorarRequisicoes);
 
 app.get('/disciplinas', (request, response) => {
     const query = request.query;
@@ -21,7 +21,7 @@ app.get('/disciplinas', (request, response) => {
 });
 
 
-app.post('/disciplinas', monitorarRequisicoes, (request, response) => {
+app.post('/disciplinas', (request, response) => {
     const body = request.body;
     return response.json(body);
 });
