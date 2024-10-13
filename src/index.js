@@ -2,44 +2,30 @@ const express = require('express');
 const app = express();
 
 app.use(express.json());
-/*
-app.get('/disciplinas', (request, response) => {
-    return response.json({
-        message: "Olá Mundo!"
-    });
-});
-*/
+
+function monitorarRequisicoes(request, response, next) {
+    const { method, url, params, body, query } = request;
+
+    const texto = `[${method} - ${url} - params: ${JSON.stringify(params)}
+    - body: ${JSON.stringify(body)} - query: ${JSON.stringify(query)}]`;
+
+    console.log(texto);
+    return next();
+}
+
+app.use(monitorarRequisicoes);
+
 app.get('/disciplinas', (request, response) => {
     const query = request.query;
     return response.json(query);
 });
 
 
-/*
-app.post('/disciplinas', (request, response) => {
-    return response.json({
-        message: "Nessa Rota devo adicionar uma disciplina!"
-    });
-});
-*/
-app.post('/disciplinas', (request, response) => {
+app.post('/disciplinas', monitorarRequisicoes, (request, response) => {
     const body = request.body;
     return response.json(body);
 });
-/*
-app.put('/disciplinas', (request, response) => {
-    return response.json({
-        message: "Nessa Rota devo modificar uma disciplina!"
-    });
-});
-*/
-/*
-app.put('/disciplinas/:id', (request, response) => {
-    const params = request.params;
 
-    return response.json(params);
-});
-*/
 app.put('/disciplinas/:id', (request, response) => {
     const {id } = request.params;
     if (id !== "tecnologia" ){
