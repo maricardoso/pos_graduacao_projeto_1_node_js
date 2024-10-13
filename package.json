@@ -1,0 +1,18 @@
+{
+  "name": "projeto_node_js",
+  "version": "1.0.0",
+  "description": "Projeto NodeJS",
+  "main": "src/index.js",
+  "license": "MIT",
+  "author": "Mariana",
+  "dependencies": {
+    "express": "^4.21.1",
+    "nodemon": "^3.1.7"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7"
+  },
+  "scripts": {
+    "dev": "nodemon"
+  }
+}
