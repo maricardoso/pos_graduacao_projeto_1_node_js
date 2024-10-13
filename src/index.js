@@ -1,6 +1,7 @@
 const express = require('express');
 const multer = require('multer');
-const uploadConfig = require('./upload/uploadConfig');
+const uploadConfig = require('./upload/uploadconfig');
+const { sign } = require('jsonwebtoken');
 
 const app = express();
 const uploadMiddleware = multer(uploadConfig);
@@ -19,6 +20,30 @@ function monitorarRequisicoes(request, response, next) {
 }
 
 app.use('/disciplinas', monitorarRequisicoes);
+
+app.post('/autenticacao', (request, response) => {
+    const { email, senha} = request.body;
+
+    // .. Validações quando ao e-mail e senha
+
+    const idUsuario = "XPTO"
+
+    const token = sign({
+        //Não incluir informações sensíveis
+        //Permissões, etc
+    }, 'minha-chave-secreta', { 
+        subject: idUsuario,
+        expiresIn: '1d'
+    });
+
+    return response.json({token});
+});
+
+/* teste: 
+{
+	"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3Mjg4NDM1MzUsImV4cCI6MTcyODkyOTkzNSwic3ViIjoiWFBUTyJ9.r1_WDmzB3W39Y_Sgdb3Lca6Z6l7W1pHB6jFCl8UgZK0"
+}
+*/
 
 app.get('/disciplinas', (request, response) => {
     const query = request.query;
